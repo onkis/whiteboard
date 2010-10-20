@@ -1,0 +1,5 @@
+bin/
+tmp/
+Gemfile.lock
+Gemfile
+.bundle/
