@@ -14,6 +14,12 @@ Whiteboard.Canvas = SC.View.extend(
 /** @scope Whiteboard.Canvas.prototype */ {
   tagName: 'canvas',
   
+  didCreateLayer: function(){
+    var f = this.get('frame');
+    this.$().attr({'width': f.width, 'height': f.height});
+  },
+  
+  
   draw: function(){
     var ctx = this.$()[0].getContext("2d");
     
@@ -34,7 +40,7 @@ Whiteboard.Canvas = SC.View.extend(
   },
   
   mouseUp: function(evt){
-    this.draw();
+    //this.draw();
     return YES;
   },
   
@@ -42,6 +48,8 @@ Whiteboard.Canvas = SC.View.extend(
   
   mouseDragged: function(evt){
     this.lines.pushObject({x: evt.pageX, y: evt.pageY});
+    this.draw();
+    
     return YES;
   }
 
