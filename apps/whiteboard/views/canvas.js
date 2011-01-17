@@ -94,8 +94,14 @@ Whiteboard.Canvas = SC.View.extend(
   
   mouseUp: function(evt){
     if(this._currentLine){
-      var lines = this.get('lines');
+      var ctx = this._ctx || this.$()[0].getContext("2d"), lines = this.get('lines');
       
+      //push final point...TODO make this work!
+      ctx.lineTo(evt.pageX, evt.pageY);
+      this._currentLine.points.pushObject({x: evt.pageX, y: evt.pageY});
+      ctx.stroke();
+      
+      //add the current line to the set..
       lines.pushObject(this._currentLine);
       this._currentLine = null;
     }

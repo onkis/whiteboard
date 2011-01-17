@@ -7,21 +7,39 @@ Whiteboard.mainPage = SC.Page.design({
     childViews: 'canvas'.w(),
     canvas: Whiteboard.Canvas.design({
       
-    }),
+    })    
+  }),
+  
+  startPane: SC.Pane.design({
+    render: function(context, firstTime){
+      context.begin('center')
+      .begin('h1').text('Welcome To Whiteboard').end()
+      .begin('h3').text('begin a new session or join...').end()
+      .begin('h1').id('new').addStyle({'backgroundColor': 'white', 'width': '40px'})
+      .text('New').end()
+      
+      .begin('p').addStyle({paddingTop: '10px'})
+        .begin('input').id('key').attr({type: 'text', autocomplete: 'off'}).end()
+        .begin('span').id('join').addStyle({'backgroundColor': 'white', 'width': '40px'})
+        .text('Join').end()
+        .end()
+      .end();
+    },
+    mouseDown: function(evt){
+      if(evt.target.id === 'new' || evt.target.id === 'join') return YES;
+      else return NO;
+    },
     
-    socket: SC.View.design({
-      render: function(context, firstTime){
-        context.push("<script src=\"http://localhost:3002/socket.io/socket.io.js\"></script> \
-        <script> \
-         var socket = new io.Socket('localhost', {port: 3002}); console.log('dorks');\
-         socket.on('connect', function(){console.log('connected');}); \
-         socket.on('message', function(){console.log('message');}); \
-         socket.on('disconnect', function(){}); \
-        </script>");
+    mouseUp: function(evt){
+      if(evt.target.id === 'new'){
+        Whiteboard.createNew();
       }
-    })
-    
-    
+      else if(evt.target.id === 'join'){
+        Whiteboard.joinBoard(this.$('#key')[0].value);
+      }
+      return YES;
+    }
+
   }),
   pageName: "Whiteboard.mainPage"
 });

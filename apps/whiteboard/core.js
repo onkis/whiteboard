@@ -24,7 +24,17 @@ Whiteboard = SC.Application.create(
   },
   guid: function() {
      return (this.s4()+this.s4());
-  }
+  },
   
+  // ..........................................................
+  // main actions
+  // 
+  createNew: function(){
+    console.log('new');
+  },
+  
+  joinBoard: function(id){
+    console.log(id);
+  }
   
 }) ;
