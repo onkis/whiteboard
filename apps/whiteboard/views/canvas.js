@@ -66,16 +66,19 @@ Whiteboard.Canvas = SC.View.extend(
   // Events
   // 
   mouseDown:function(evt){
+    //SC.Benchmark.start('down');
     var ctx = this._ctx || this.$()[0].getContext("2d"),
         currentLine = this._currentLine;
     
     ctx.beginPath();
     ctx.moveTo(evt.pageX,evt.pageY);
-    currentLine = {color:'', start: {x: evt.pageX, y: evt.pageY}, points: [], thickness:''};
-    SC.guidFor(currentLine);
-    this._alreadyDrawn[currentLine._guid] = true;
+    //TODO: generate guid on mouseUp for better perf...
+    //consider using points as a form of guid...
+    currentLine = {guid: Whiteboard.guid(), color:'', start: {x: evt.pageX, y: evt.pageY}, points: [], thickness:''};
+    this._alreadyDrawn[currentLine.guid] = true;
     this._ctx = ctx;
     this._currentLine = currentLine;
+    //SC.Benchmark.end('down');
     return YES;
   },
   mouseDragged: function(evt){

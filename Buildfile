@@ -6,4 +6,6 @@
 # Add initial buildfile information here
 config :all, :required => :sproutcore
 
-proxy '/', :to => 'http://localhost:3002'
+config :whiteboard, :layout => 'lib/index.rhtml'
+
+proxy '/socket.io', :to => 'localhost:3002'

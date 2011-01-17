@@ -4,14 +4,16 @@ var http = require('http'),
 server = http.createServer(function(req, res){ 
  // your normal server code 
  res.writeHeader(200, {'Content-Type': 'text/html'}); 
- res.writeBody('<h1>Hello world</h1>'); 
- res.finish(); 
+ // res.writeBody('<h1>Hello world</h1>'); 
+ res.close(); 
 });
 server.listen(3002); 
   
 // socket.io 
 var socket = io.listen(server); 
 socket.on('connection', function(client){ 
+  console.log("connected to client");
+  console.log(client);
   // new client is here! 
   client.on('message', function(){});
   client.on('disconnect', function(){}); 

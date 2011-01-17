@@ -16,12 +16,15 @@ Whiteboard = SC.Application.create(
   NAMESPACE: 'Whiteboard',
   VERSION: '0.1.0',
 
-  // This is your application store.  You will use this store to access all
-  // of your model data.  You can also set a data source on this store to
-  // connect to a backend server.  The default setup below connects the store
-  // to any fixtures you define.
-  store: SC.Store.create().from(SC.Record.fixtures)
+  // ..........................................................
+  // guid generation...need to move this to the server...
+  // 
+  s4: function() {
+    return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+  },
+  guid: function() {
+     return (this.s4()+this.s4());
+  }
   
-  // TODO: Add global constants or singleton objects needed by your app here.
-
+  
 }) ;

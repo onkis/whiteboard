@@ -2,7 +2,7 @@
 // Project:   Whiteboard
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Whiteboard */
+/*globals Whiteboard io*/
 
 // This is the function that will start your app running.  The default
 // implementation will load any fixtures you have created then instantiate
@@ -24,6 +24,16 @@ Whiteboard.main = function main() {
 
   // TODO: Set the content property on your primary controller
   // ex: Whiteboard.contactsController.set('content',Whiteboard.contacts);
+  var socket = new io.Socket(null, {port: 3002, rememberTransport: false});
+  socket.connect();
+  socket.on('connect', function(){ 
+    console.log('connected to server');
+    socket.send('dorks');
+  }); 
+  socket.on('message', function(){ });
+  socket.on('disconnect', function(){ });
+  
+  
 
 } ;
 
