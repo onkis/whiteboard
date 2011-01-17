@@ -25,19 +25,36 @@ Whiteboard.mainPage = SC.Page.design({
         .end()
       .end();
     },
-    mouseDown: function(evt){
-      if(evt.target.id === 'new' || evt.target.id === 'join') return YES;
+    touchStart: function(evt){
+      console.log('touch start');
+      var target = evt.target ? evt.target : evt.event.target;
+      var id = target.id ? target.id : target.parentNode.id;
+      
+      if(id === 'new' || id === 'join') return YES;
       else return NO;
     },
-    
-    mouseUp: function(evt){
-      if(evt.target.id === 'new'){
+    touchesDragged: function(){
+      return YES;
+    },
+    touchEnd: function(evt){
+      var target = evt.target ? evt.target : evt.event.target;
+      var id = target.id ? target.id : target.parentNode.id;
+      
+      
+      if(id === 'new'){
         Whiteboard.createNew();
       }
-      else if(evt.target.id === 'join'){
+      else if(id === 'join'){
         Whiteboard.requestJoinBoard(this.$('#key')[0].value);
       }
       return YES;
+    },
+    
+    mouseDown: function(evt){
+      return this.touchStart(evt);
+    },
+    mouseUp: function(evt){
+      return this.touchEnd(evt);
     }
 
   }),

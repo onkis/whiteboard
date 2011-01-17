@@ -65,7 +65,7 @@ Whiteboard.Canvas = SC.View.extend(
   // ..........................................................
   // Events
   // 
-  mouseDown:function(evt){
+  touchStart:function(evt){
     //SC.Benchmark.start('down');
     var ctx = this._ctx || this.$()[0].getContext("2d"),
         currentLine = this._currentLine;
@@ -81,7 +81,7 @@ Whiteboard.Canvas = SC.View.extend(
     //SC.Benchmark.end('down');
     return YES;
   },
-  mouseDragged: function(evt){
+  touchesDragged: function(evt, touches){
     var ctx = this._ctx || this.$()[0].getContext("2d");
     
     //TODO: optimize by only adding if not the same as last point
@@ -92,7 +92,7 @@ Whiteboard.Canvas = SC.View.extend(
     return YES;
   },
   
-  mouseUp: function(evt){
+  touchEnd: function(evt){
     if(this._currentLine){
       var ctx = this._ctx || this.$()[0].getContext("2d"), lines = this.get('lines');
       
@@ -109,7 +109,18 @@ Whiteboard.Canvas = SC.View.extend(
     }
     
     return YES;
+  },
+  
+  mouseDown: function(evt){
+    return this.touchStart(evt);
+  },
+  mouseDragged: function(evt){
+    return this.touchesDragged(evt);
+  },
+  mouseUp: function(evt){
+    return this.touchEnd(evt);
   }
+  
     
 
 
