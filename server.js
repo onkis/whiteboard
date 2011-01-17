@@ -30,10 +30,10 @@ socket.on('connection', function(client){
       console.log('creating a board');
       db.set(message.guid, JSON.stringify(message));
     }
-    //adding a path: {boardGuid : '', addPath: true, path: {}}
+    //adding a path: {boardGuid : '', addPath: true}
     else if(message.addPath){
       console.log('adding a path');
-      db.sadd(message.boardGuid+":paths", JSON.stringify(message.path));
+      db.sadd(message.boardGuid+":paths", JSON.stringify(message));
       client.broadcast(message); //TODO: setup a special sessions client list to send to
     }
     //board retrevial
@@ -47,10 +47,9 @@ socket.on('connection', function(client){
          //collect all the paths...
          db.smembers(ret.guid+":paths", function(err, val){
            if(err) throw err;
-           
+           console.log(val);
            for(var i=0, l = val.length; i<l; i++){
-             console.log(val[i]);
-             //ret.paths.push(JSON.parse(val[i]));
+             ret.paths.push(JSON.parse(val[i]));
            }
            client.send(ret);
          }); 
