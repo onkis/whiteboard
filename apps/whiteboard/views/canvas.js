@@ -23,7 +23,7 @@ Whiteboard.Canvas = SC.View.extend(
   
   _newLineAdded: function(){
     this.displayDidChange();
-  }.observes('lines.[]'),
+  }.observes('*lines.[]'),
   
   didCreateLayer: function(){
     var f = this.get('frame');

@@ -24,6 +24,7 @@ Whiteboard.main = function main() {
       Whiteboard.joinBoard(message);
     }
     else if(message.addPath){
+      console.log('got message add path');
       Whiteboard.validateAndAddPath(message);
     }
     else{

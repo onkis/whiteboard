@@ -49,7 +49,8 @@ socket.on('connection', function(client){
            if(err) throw err;
            
            for(var i=0, l = val.length; i<l; i++){
-             ret.paths.push(JSON.parse(val[i]));
+             console.log(val[i]);
+             //ret.paths.push(JSON.parse(val[i]));
            }
            client.send(ret);
          }); 
