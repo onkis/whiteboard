@@ -101,6 +101,8 @@ Whiteboard.Canvas = SC.View.extend(
       this._currentLine.points.pushObject({x: evt.pageX, y: evt.pageY});
       ctx.stroke();
       
+      Whiteboard.sendLine(this._currentLine);
+      
       //add the current line to the set..
       lines.pushObject(this._currentLine);
       this._currentLine = null;

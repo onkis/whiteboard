@@ -6,7 +6,7 @@ Whiteboard.mainPage = SC.Page.design({
   mainPane: SC.MainPane.design({
     childViews: 'canvas'.w(),
     canvas: Whiteboard.Canvas.design({
-      
+      linesBinding: 'Whiteboard.pathsController'
     })    
   }),
   
@@ -20,7 +20,7 @@ Whiteboard.mainPage = SC.Page.design({
       
       .begin('p').addStyle({paddingTop: '10px'})
         .begin('input').id('key').attr({type: 'text', autocomplete: 'off'}).end()
-        .begin('span').id('join').addStyle({'backgroundColor': 'white', 'width': '40px'})
+        .begin('h1').id('join').addStyle({'backgroundColor': 'white', 'width': '40px'})
         .text('Join').end()
         .end()
       .end();
@@ -35,7 +35,7 @@ Whiteboard.mainPage = SC.Page.design({
         Whiteboard.createNew();
       }
       else if(evt.target.id === 'join'){
-        Whiteboard.joinBoard(this.$('#key')[0].value);
+        Whiteboard.requestJoinBoard(this.$('#key')[0].value);
       }
       return YES;
     }

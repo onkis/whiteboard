@@ -26,6 +26,7 @@ socket.on('connection', function(client){
     console.log(message);
     //board creation {guid, createBoard: true}
     if(message.createBoard){
+      delete message.createBoard;
       console.log('creating a board');
       db.set(message.guid, JSON.stringify(message));
     }
@@ -41,6 +42,7 @@ socket.on('connection', function(client){
         if(err) throw err;
         if(val){
          var ret = JSON.parse(val);
+         ret.boardJoin = true;
          ret.paths = [];
          //collect all the paths...
          db.smembers(ret.guid+":paths", function(err, val){
