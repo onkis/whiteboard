@@ -28,6 +28,9 @@ Whiteboard.Canvas = SC.View.extend(
   didCreateLayer: function(){
     var f = this.get('frame');
     this.$().attr({'width': f.width, 'height': f.height});
+    var image = new Image();
+    image.src = static_url("chalk-tile-white.png");
+    this._image = image;
   },
   
   render: function(context, firstTime){
@@ -69,8 +72,11 @@ Whiteboard.Canvas = SC.View.extend(
     //SC.Benchmark.start('down');
     var ctx = this._ctx || this.$()[0].getContext("2d"),
         currentLine = this._currentLine;
-    
+    //ctx.strokeStyle = ctx.createPattern(this._image, "repeat");
     ctx.beginPath();
+    ctx.shadowBlur = 2;
+    ctx.shadowColor = 'black';
+    ctx.lineWidth = 1;
     ctx.moveTo(evt.pageX,evt.pageY);
     //TODO: generate guid on mouseUp for better perf...
     //consider using points as a form of guid...
