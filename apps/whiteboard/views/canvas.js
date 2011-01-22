@@ -74,9 +74,9 @@ Whiteboard.Canvas = SC.View.extend(
         currentLine = this._currentLine;
     //ctx.strokeStyle = ctx.createPattern(this._image, "repeat");
     ctx.beginPath();
-    ctx.shadowBlur = 2;
+    ctx.shadowBlur = 1;
     ctx.shadowColor = 'black';
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 0.5;
     ctx.moveTo(evt.pageX,evt.pageY);
     //TODO: generate guid on mouseUp for better perf...
     //consider using points as a form of guid...
