@@ -20,6 +20,7 @@ Whiteboard.main = function main() {
   }); 
   
   socket.on('message', function(message){
+    SC.RunLoop.begin();
     if(message.boardJoin){
       Whiteboard.joinBoard(message);
     }
@@ -31,7 +32,7 @@ Whiteboard.main = function main() {
       console.log("didn't know what to do with message...");
       console.log(message);
     }
-    
+    SC.RunLoop.end();
   });
   
   
