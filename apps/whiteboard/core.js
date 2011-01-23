@@ -40,7 +40,10 @@ Whiteboard = SC.Application.create(
     
     Whiteboard.boardController.set('content', board);
 
-    Whiteboard.getPath('mainPage.startPane').remove();    
+    Whiteboard.getPath('mainPage.startPane').remove(); 
+    
+    SC.routes.setIfChanged('location', Whiteboard.boardController.get('guid'));
+       
   },
   
   requestJoinBoard: function(id){
@@ -52,6 +55,8 @@ Whiteboard = SC.Application.create(
     var board = SC.Object.create(message);
     Whiteboard.boardController.set('content', board);
     Whiteboard.getPath('mainPage.startPane').remove();
+    SC.routes.setIfChanged('location', Whiteboard.boardController.get('guid'));
+    
   },
   
   sendLine: function(line){
@@ -70,6 +75,17 @@ Whiteboard = SC.Application.create(
       console.log("guid didn't match don't add the line!");
     }
     
-  }
+  },
   
+  // ..........................................................
+  // router stuff
+  // 
+  routeDidChange: function(params){
+    if(!params.board) return NO; // nothing to do
+    
+    if(Whiteboard.boardController.get('guid') !== params.board){
+      this.requestJoinBoard(params.board);
+    }
+    
+  }
 }) ;

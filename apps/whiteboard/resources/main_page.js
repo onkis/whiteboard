@@ -6,6 +6,8 @@ Whiteboard.mainPage = SC.Page.design({
   mainPane: SC.MainPane.design({
     childViews: 'canvas'.w(),
     canvas: Whiteboard.Canvas.design({
+      layerId: 'board',
+      layout: {top: 0, right: 35, left: 0, bottom: 0},
       linesBinding: 'Whiteboard.pathsController'
     })    
   }),

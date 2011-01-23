@@ -42,6 +42,8 @@ Whiteboard.main = function main() {
   
   Whiteboard.socket = socket;
   
+  
+  SC.routes.add(':board', Whiteboard, Whiteboard.routeDidChange);
 
 } ;
 

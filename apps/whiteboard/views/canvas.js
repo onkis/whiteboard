@@ -28,9 +28,10 @@ Whiteboard.Canvas = SC.View.extend(
   didCreateLayer: function(){
     var f = this.get('frame');
     this.$().attr({'width': f.width, 'height': f.height});
-    var image = new Image();
-    image.src = static_url("chalk-tile-white.png");
-    this._image = image;
+    //compute frame offset
+    f = this.convertFrameToView(this.get('parentView'), null);
+    this._x = f.x;
+    this._y = f.y;
   },
   
   render: function(context, firstTime){
@@ -42,7 +43,9 @@ Whiteboard.Canvas = SC.View.extend(
         if(!alreadyDrawn[line.guid]){
           //TODO: add thickness and line color
           ctx.moveTo(line.start.x, line.start.y);
-          
+          ctx.shadowBlur = 1;
+          ctx.shadowColor = 'black';
+          ctx.lineWidth = 0.5;
           line.points.forEach(function(pt){
             ctx.lineTo(pt.x,pt.y);
           });
@@ -52,19 +55,7 @@ Whiteboard.Canvas = SC.View.extend(
       });  
     }
   },
-  
-  
-  draw: function(){
-    var ctx = this.$()[0].getContext("2d");
-    
-    ctx.fillStyle = "rgb(200,0,0)";
-    ctx.beginPath();
-    ctx.moveTo(this._startX, this._startY);
-    this.lines.forEach(function(i){
-      ctx.lineTo(i.x,i.y);
-    });
-    ctx.stroke();
-  },
+
   // ..........................................................
   // Events
   // 
@@ -78,6 +69,10 @@ Whiteboard.Canvas = SC.View.extend(
     ctx.shadowColor = 'black';
     ctx.lineWidth = 0.5;
     ctx.moveTo(evt.pageX,evt.pageY);
+    
+    this._lastX = evt.pageX;
+    this._lastY = evt.pageY;
+    
     //TODO: generate guid on mouseUp for better perf...
     //consider using points as a form of guid...
     currentLine = {guid: Whiteboard.guid(), color:'', start: {x: evt.pageX, y: evt.pageY}, points: [], thickness:''};
@@ -88,13 +83,17 @@ Whiteboard.Canvas = SC.View.extend(
     return YES;
   },
   touchesDragged: function(evt, touches){
-    var ctx = this._ctx || this.$()[0].getContext("2d");
     
-    //TODO: optimize by only adding if not the same as last point
-    ctx.lineTo(evt.pageX, evt.pageY);
-    this._currentLine.points.pushObject({x: evt.pageX, y: evt.pageY});
-    ctx.stroke();
-    
+    if(this._lastX !== evt.pageX && this._lastY !== evt.pageY){
+      var ctx = this._ctx || this.$()[0].getContext("2d");
+      ctx.lineTo(evt.pageX, evt.pageY);
+      this._currentLine.points.pushObject({x: evt.pageX, y: evt.pageY});
+      ctx.stroke();
+
+      this._lastX = evt.pageX;
+      this._lastY = evt.pageY;
+    }
+        
     return YES;
   },
   
